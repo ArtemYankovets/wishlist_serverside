@@ -1,8 +1,5 @@
 package com.wishlist.serverside.domain;
 
-import lombok.Data;
-
-@Data
 public class Address {
 
     private String city;

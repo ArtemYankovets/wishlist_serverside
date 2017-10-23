@@ -17,11 +17,6 @@ public class WishListService implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private WishRepository wishRepository;
-
-
-
     @Override
     public void run(String... strings) throws Exception {
         User alan = new User (
@@ -31,7 +26,6 @@ public class WishListService implements CommandLineRunner {
             Arrays.asList(),
             Arrays.asList(),
             false,
-            Arrays.asList(),
             Arrays.asList()
         );
 
@@ -42,7 +36,6 @@ public class WishListService implements CommandLineRunner {
                 Arrays.asList(),
                 Arrays.asList(),
                 false,
-                Arrays.asList(),
                 Arrays.asList()
         );
 
@@ -51,12 +44,8 @@ public class WishListService implements CommandLineRunner {
         // drop all users
         userRepository.deleteAll();
 
-
         // all users to the database
         List<User> users = Arrays.asList(alan, maria);
         userRepository.save(users);
-
-        // drop all wishes
-        wishRepository.deleteAll();
     }
 }
