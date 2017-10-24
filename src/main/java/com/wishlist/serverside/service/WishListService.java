@@ -31,7 +31,7 @@ public class WishListService implements CommandLineRunner {
         User user = userRepository.findById("userAlanPupkin");
         Wish wish = wishRepository.findById("wish001");
 
-        user.getWishList().add(wish);
+        user.getListOfWishesId().add(wish.getId());
         wish.getUserUsageRreferences().add(user.getId());
 
         userRepository.save(user);
@@ -84,7 +84,7 @@ public class WishListService implements CommandLineRunner {
                 Arrays.asList(),
                 Arrays.asList(),
                 false,
-                new ArrayList<Wish>()
+                new ArrayList<String>()
         );
 
         User maria = new User (
@@ -95,7 +95,7 @@ public class WishListService implements CommandLineRunner {
                 Arrays.asList(),
                 Arrays.asList(),
                 false,
-                new ArrayList<Wish>()
+                new ArrayList<String>()
         );
 
         // drop all users

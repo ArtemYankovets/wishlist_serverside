@@ -3,7 +3,6 @@ package com.wishlist.serverside.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -27,6 +26,5 @@ public class User {
     private boolean autorized;
 
     // only wishes id
-    @DBRef
-    private List<Wish> wishList;
+    private List<String> listOfWishesId;
 }
