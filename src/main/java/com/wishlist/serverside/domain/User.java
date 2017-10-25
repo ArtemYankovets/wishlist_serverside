@@ -25,6 +25,6 @@ public class User {
 
     private boolean autorized;
 
-    // only wishes id
-    private List<String> listOfWishesId;
+    // only wishlist id
+    private List<String> wishListIds;
 }

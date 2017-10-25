@@ -1,6 +1,7 @@
 package com.wishlist.serverside.domain;
 
 
+import com.sun.xml.internal.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -20,5 +21,8 @@ public class Wish {
     private boolean done;
 
     // only users id who use current wish
-    private List<String> userUsageRreferences;
+    private List<String> userUsageId;
+
+    // TODO Don't know what is it
+    private List<String> subpoint;
 }
