@@ -1,7 +1,5 @@
 package com.wishlist.serverside.domain;
 
-
-import com.sun.xml.internal.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
