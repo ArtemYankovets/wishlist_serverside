@@ -11,5 +11,5 @@ import java.util.List;
 public interface WishRepository extends MongoRepository<Wish, String>{
     Wish findById(String id);
 
-    List<User> findByUserUsageRreferences(String userId);
+    List<User> findByUserUsageId(String userId);
 }
