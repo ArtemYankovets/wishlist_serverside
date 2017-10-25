@@ -21,7 +21,7 @@ public class Wish {
     private boolean done;
 
     // only users id who use current wish
-    private List<String> userUsageId;
+    private List<String> wishListUsageId;
 
     // TODO Don't know what is it
     private List<String> subpoint;

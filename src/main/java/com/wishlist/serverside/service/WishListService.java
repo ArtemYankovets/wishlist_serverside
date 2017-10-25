@@ -42,7 +42,7 @@ public class WishListService implements CommandLineRunner {
 
         user.getWishListIds().add(wishList001.getId());
         wishList001.setOwner(user.getId());
-        wish001.getUserUsageId().add(user.getId());
+        wish001.getWishListUsageId().add(user.getId());
 
         userRepository.save(user);
         wishListRepository.save(wishList001);
