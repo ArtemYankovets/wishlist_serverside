@@ -34,19 +34,19 @@ public class WishListService implements CommandLineRunner {
         initWishesCollection();
         initWishListsCollection();
 
-        User user = userRepository.findById("userAlanPupkin");
-        Wish wish001 = wishRepository.findById("wish001");
-        WishList wishList001 = wishListRepository.findById("wishList001");
-
-
-
-        user.getWishListIds().add(wishList001.getId());
-        wishList001.setOwner(user.getId());
-        wish001.getWishListUsageId().add(user.getId());
-
-        userRepository.save(user);
-        wishListRepository.save(wishList001);
-        wishRepository.save(wish001);
+//        User user = userRepository.findById("userAlanPupkin");
+//        Wish wish001 = wishRepository.findById("wish001");
+//        WishList wishList001 = wishListRepository.findById("wishList001");
+//
+//
+//
+//        user.getWishListIds().add(wishList001.getId());
+//        wishList001.setOwner(user.getId());
+//        wish001.getWishListUsageId().add(user.getId());
+//
+//        userRepository.save(user);
+//        wishListRepository.save(wishList001);
+//        wishRepository.save(wish001);
     }
 
     private void initUsersCollection() {
