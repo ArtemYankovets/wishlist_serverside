@@ -74,7 +74,7 @@ public class WishListController {
      * @return request with status code and User entity in json format.
      */
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getUser(@RequestParam("id") String id) {
+    public ResponseEntity getUser(@PathVariable("id") String id) {
         return new ResponseEntity<>(this.userRepository.findById(id), HttpStatus.OK);
     }
 
@@ -88,7 +88,7 @@ public class WishListController {
      * @return request with status code.
      */
     @RequestMapping(value = "/users/{id}/update/wishlist", method = RequestMethod.PATCH, consumes = "application/json")
-    public ResponseEntity udateWishListIdsInUser(@RequestParam("id") String id, @RequestBody List<String> wishListIds) {
+    public ResponseEntity udateWishListIdsInUser(@PathVariable("id") String id, @RequestBody List<String> wishListIds) {
         this.userRepository.findById(id).setWishListIds(wishListIds);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -179,7 +179,7 @@ public class WishListController {
      * @return request with status code and WishList entity in json format.
      */
     @RequestMapping(value = "/lists/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getWishList(@RequestParam("id") String id) {
+    public ResponseEntity getWishList(@PathVariable("id") String id) {
         return new ResponseEntity<>(this.wishListRepository.findById(id), HttpStatus.OK);
     }
 
@@ -194,7 +194,7 @@ public class WishListController {
      * @return request with status code and message if resource doesn't exist.
      */
     @RequestMapping(value = "/list/remove/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteWishList(@RequestParam("id") String id) {
+    public ResponseEntity deleteWishList(@PathVariable("id") String id) {
         WishList existWishList = this.wishListRepository.findById(id);
         if ( existWishList == null ) {
             return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
@@ -258,6 +258,17 @@ public class WishListController {
     @RequestMapping(value = "/wishes/all", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getAllWishes() {
         return new ResponseEntity<>(this.wishRepository.findAll(), HttpStatus.OK);
+    }
+
+    /**
+     * Returns Wish by id.
+     *
+     * @param id of Wish which should be returned.
+     * @return request with status code and Wish entity in json format.
+     */
+    @RequestMapping(value = "/wishes/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getWish(@PathVariable("id") String id) {
+        return new ResponseEntity<>(this.wishRepository.findById(id), HttpStatus.OK);
     }
 
     // Update
