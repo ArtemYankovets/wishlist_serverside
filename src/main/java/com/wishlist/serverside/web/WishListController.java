@@ -140,11 +140,11 @@ public class WishListController {
         }
 
         if ( wish.getWishListUsageId() != null ) {
-            if ( !this.wishListRepository.exists(wish.getWishListUsageId().get(0)) ) {
+            if ( !this.wishListRepository.exists(wish.getWishListUsageId()) ) {
                 return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
             }
 
-            WishList wishList = this.wishListRepository.findById(wish.getWishListUsageId().get(0));
+            WishList wishList = this.wishListRepository.findById(wish.getWishListUsageId());
             wishList.getWishes().add(wish.getId());
             this.wishListRepository.save(wishList);
         }
@@ -177,13 +177,11 @@ public class WishListController {
             return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
         }
 
-        // only one wishlist
-        List<String> wishListUsageId = existWish.getWishListUsageId();
-        wishListUsageId.forEach(list -> {
-            WishList wl = this.wishListRepository.findById(list);
-            wl.getWishes().remove(id);
-            this.wishListRepository.save(wl);
-        });
+        // each wish exist only in one wishlist
+        String wishListUsageId = existWish.getWishListUsageId();
+        WishList wishList = this.wishListRepository.findById(wishListUsageId);
+        wishList.getWishes().remove(id);
+        this.wishListRepository.save(wishList);
 
         this.wishRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

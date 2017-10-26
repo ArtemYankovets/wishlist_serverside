@@ -18,8 +18,8 @@ public class Wish {
     private String name;
     private boolean done;
 
-    // only users id who use current wish
-    private List<String> wishListUsageId;
+    // wishList id where is current wish
+    private String wishListUsageId;
 
     // TODO Don't know what is it
     private List<String> subpoint;

@@ -85,7 +85,7 @@ public class WishListService implements CommandLineRunner {
                 "wish001",
                 "Finish wishlist app",
                 false,
-                new ArrayList<>(),
+                "",
                 new ArrayList<>()
         );
 
@@ -93,7 +93,7 @@ public class WishListService implements CommandLineRunner {
                 "wish002",
                 "Launch wishlist app",
                 false,
-                new ArrayList<>(),
+                "",
                 new ArrayList<>()
         );
 
@@ -101,7 +101,7 @@ public class WishListService implements CommandLineRunner {
                 "wish003",
                 "Read book",
                 false,
-                new ArrayList<>(),
+                "",
                 new ArrayList<>()
         );
 
@@ -109,7 +109,7 @@ public class WishListService implements CommandLineRunner {
                 "wish004",
                 "Go to the gim",
                 false,
-                new ArrayList<>(),
+                "",
                 new ArrayList<>()
         );
 
