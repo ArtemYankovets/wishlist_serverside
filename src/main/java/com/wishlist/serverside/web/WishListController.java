@@ -9,11 +9,9 @@ import com.wishlist.serverside.persistance.WishListRepository;
 import com.wishlist.serverside.persistance.WishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,8 +39,8 @@ public class WishListController {
     /**
      * Creates new User
      *
-     * @param user content for new User
-     * @return request with status code and message if resource is already exist     *
+     * @param user content for new User.
+     * @return request with status code and message if resource is already exist.
      */
     @RequestMapping(value = "/users/new", method = RequestMethod.POST)
     public ResponseEntity insertUser(@RequestBody User user) {
@@ -58,39 +56,89 @@ public class WishListController {
     }
 
     // Read
-    @RequestMapping(value = "/users/all", method = RequestMethod.GET)
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+
+    /**
+     * Returns all Users in collection.
+     *
+     * @return request with status code and all Users from collection in json format.
+     */
+    @RequestMapping(value = "/users/all", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getAllUsers() {
+        return new ResponseEntity<>(this.userRepository.findAll(), HttpStatus.OK);
+    }
+
+    /**
+     * Returns User by id.
+     *
+     * @param id of User which should be returned.
+     * @return request with status code and User entity in json format.
+     */
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getUser(@RequestParam("id") String id) {
+        return new ResponseEntity<>(this.userRepository.findById(id), HttpStatus.OK);
     }
 
     // Update
+
+    /**
+     * Updates wishListIds in User.
+     *
+     * @param id          of User which should be updated.
+     * @param wishListIds list of ids which should be updated in User.
+     * @return request with status code.
+     */
     @RequestMapping(value = "/users/{id}/update/wishlist", method = RequestMethod.PATCH, consumes = "application/json")
-    public ResponseEntity udateUserWishList(@RequestParam("id") String id, @RequestBody List<String> wishListIds) {
+    public ResponseEntity udateWishListIdsInUser(@RequestParam("id") String id, @RequestBody List<String> wishListIds) {
         this.userRepository.findById(id).setWishListIds(wishListIds);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
     // Delete
+
+    /**
+     * Deletes User by id.
+     *
+     * @param id of User which should be deleted.
+     * @return request with status code and message if resource doesn't exist.
+     */
     @RequestMapping(value = "/users/remove/{id}", method = RequestMethod.DELETE)
-    public void removeUser(@PathVariable("id") String id) {
+    public ResponseEntity deleteUser(@PathVariable("id") String id) {
+        if ( !this.userRepository.exists(id) ) {
+            return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+        }
+
+        // TODO delete User id from all inner WishLists
+
         this.userRepository.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * Deletes all Users.
+     *
+     * @return request with status code and message if resource doesn't exist.
+     */
     @RequestMapping(value = "/users/remove/all", method = RequestMethod.DELETE)
-    public void removeAllUsers() {
-        this.userRepository.deleteAll();
-    }
+    public ResponseEntity deleteAllUsers() {
+        if ( this.userRepository.findAll().isEmpty() ) {
+            return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+        }
 
+        // TODO delete User id from all inner WishLists
+
+        this.userRepository.deleteAll();
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     /* -------------------- wishlists -------------------- */
     // Create
 
     /**
-     * Creates new WishList
+     * Creates new WishList.
      *
-     * @param wishList content for new WishList
-     * @return request with status code and message if resource is already exist
+     * @param wishList content for new WishList.
+     * @return request with status code and message if resource is already exist.
      */
     @RequestMapping(value = "/lists/new", method = RequestMethod.POST)
     public ResponseEntity insertWishList(@RequestBody WishList wishList) {
@@ -104,7 +152,7 @@ public class WishListController {
 
         String ownerId = wishList.getOwner();
 
-        // add new wishlist id to
+        // add new wishlist id to User owner entity
         User owner = this.userRepository.findById(ownerId);
         owner.getWishListIds().add(wishList.getId());
         this.userRepository.save(owner);
@@ -113,23 +161,70 @@ public class WishListController {
     }
 
     // Read
-    @RequestMapping(value = "/lists/all", method = RequestMethod.GET)
-    public List<WishList> getAllWishLists() {
-        return this.wishListRepository.findAll();
+
+    /**
+     * Returns all WishLists in collection.
+     *
+     * @return request with status code and all WishLists from collection in json format.
+     */
+    @RequestMapping(value = "/lists/all", method = RequestMethod.GET, consumes = "application/json")
+    public ResponseEntity getAllWishLists() {
+        return new ResponseEntity<>(this.wishListRepository.findAll(), HttpStatus.OK);
+    }
+
+    /**
+     * Returns WishList by id.
+     *
+     * @param id of WishList which should be returned.
+     * @return request with status code and WishList entity in json format.
+     */
+    @RequestMapping(value = "/lists/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getWishList(@RequestParam("id") String id) {
+        return new ResponseEntity<>(this.wishListRepository.findById(id), HttpStatus.OK);
     }
 
     // Update
+
     // Delete
 
+    /**
+     * Deletes WishList by id, removes WishList id from User and from all connected Wishes.
+     *
+     * @param id of WishList which should be deleted.
+     * @return request with status code and message if resource doesn't exist.
+     */
+    @RequestMapping(value = "/list/remove/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteWishList(@RequestParam("id") String id) {
+        WishList existWishList = this.wishListRepository.findById(id);
+        if ( existWishList == null ) {
+            return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+        }
+
+        // delete WishList id from owner User
+        User owner = this.userRepository.findById(existWishList.getOwner());
+        owner.getWishListIds().remove(id);
+        this.userRepository.save(owner);
+
+        // delete WishList id from all inner Wishes
+        List<String> wishes = existWishList.getWishes();
+        wishes.forEach(wishId -> {
+            Wish wish = this.wishRepository.findById(wishId);
+            wish.setWishListUsageId("");
+            this.wishRepository.save(wish);
+        });
+
+        this.wishListRepository.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     /* -------------------- wishes -------------------- */
     // Create
 
     /**
-     * Creates new Wish
+     * Creates new Wish.
      *
-     * @param wish content for new Wish
-     * @return request with status code and message if resource is already exist
+     * @param wish content for new Wish.
+     * @return request with status code and message if resource is already exist.
      */
     @RequestMapping(value = "/wishes/new", method = RequestMethod.POST)
     public ResponseEntity insertWish(@RequestBody Wish wish) {
@@ -154,9 +249,15 @@ public class WishListController {
     }
 
     // Read
-    @RequestMapping(value = "/wishes/all", method = RequestMethod.GET)
-    public List<Wish> getAllWishes() {
-        return this.wishRepository.findAll();
+
+    /**
+     * Returns all Wishes in collection.
+     *
+     * @return all Wishes from collection in json format.
+     */
+    @RequestMapping(value = "/wishes/all", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getAllWishes() {
+        return new ResponseEntity<>(this.wishRepository.findAll(), HttpStatus.OK);
     }
 
     // Update
@@ -164,13 +265,13 @@ public class WishListController {
     // Delete
 
     /**
-     * Deletes Wish by id
+     * Deletes Wish by id.
      *
-     * @param id of wish which should be deleted
-     * @return request with status code and message if resource doesn't exist
+     * @param id of Wish which should be deleted.
+     * @return request with status code and message if resource doesn't exist.
      */
     @RequestMapping(value = "/wishes/remove/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable("id") String id) {
+    public ResponseEntity deleteWish(@PathVariable("id") String id) {
 
         Wish existWish = this.wishRepository.findById(id);
         if ( existWish == null ) {
