@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -90,7 +91,7 @@ public class WishListController {
     @RequestMapping(value = "/users/{id}/update/wishlist", method = RequestMethod.PATCH, consumes = "application/json")
     public ResponseEntity udateWishListIdsInUser(@PathVariable("id") String id, @RequestBody List<String> wishListIds) {
         this.userRepository.findById(id).setWishListIds(wishListIds);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -272,6 +273,26 @@ public class WishListController {
     }
 
     // Update
+
+    /**
+     * Updates or copies a one Wish.
+     *
+     * @param wish which should be updated ore copied.
+     * @return request with status code and message if resource doesn't exist.
+     */
+    @RequestMapping(value = "/wishes/update", method = RequestMethod.PATCH, consumes = "application/json")
+    public ResponseEntity updateOrCopyOneWish(@RequestBody Wish wish) {
+        if ( !wish.getWishListUsageId().isEmpty() ) {
+            if ( !this.wishListRepository.exists(wish.getWishListUsageId()) ) {
+                return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+            }
+            WishList wishList = this.wishListRepository.findById(wish.getWishListUsageId());
+            wishList.getWishes().add(wish.getId());
+            this.wishListRepository.save(wishList);
+        }
+        this.wishRepository.save(wish);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     // Delete
 
