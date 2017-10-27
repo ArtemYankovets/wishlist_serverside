@@ -38,7 +38,7 @@ There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this pr
         </ul>
     2.3. UPDATE<br/>
         <ul>
-           <li>Updating/copying a one Wish - /api/wishlist/wishes/update</li>
+           <li></li>
         </ul>
     2.4. DELETE<br/>
         <ul>
@@ -57,7 +57,7 @@ There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this pr
         </ul>
     3.3. UPDATE<br/>
         <ul>
-           <li></li>
+           <li>Updating/copying a one Wish - /api/wishlist/wishes/update</li>
         </ul>
     3.4. DELETE<br/>
         <ul>
