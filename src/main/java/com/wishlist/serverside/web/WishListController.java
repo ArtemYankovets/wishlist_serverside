@@ -89,7 +89,7 @@ public class WishListController {
      * @return request with status code.
      */
     @RequestMapping(value = "/users/{id}/update/wishlist", method = RequestMethod.PATCH, consumes = "application/json")
-    public ResponseEntity udateWishListIdsInUser(@PathVariable("id") String id, @RequestBody List<String> wishListIds) {
+    public ResponseEntity updateWishListIdsInUser(@PathVariable("id") String id, @RequestBody List<String> wishListIds) {
         this.userRepository.findById(id).setWishListIds(wishListIds);
         return new ResponseEntity<>(HttpStatus.OK);
     }
