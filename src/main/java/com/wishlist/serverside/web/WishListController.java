@@ -282,6 +282,12 @@ public class WishListController {
      */
     @RequestMapping(value = "/wishes/update", method = RequestMethod.PATCH, consumes = "application/json")
     public ResponseEntity updateOrCopyOneWish(@RequestBody Wish wish) {
+
+        // checking existing wish in db
+        if ( !this.wishRepository.exists(wish.getId()) ) {
+            return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+        }
+
         if ( !wish.getWishListUsageId().isEmpty() ) {
             if ( !this.wishListRepository.exists(wish.getWishListUsageId()) ) {
                 return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
