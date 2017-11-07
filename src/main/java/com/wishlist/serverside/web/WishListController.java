@@ -275,7 +275,11 @@ public class WishListController {
     // Update
 
     /**
-     * Updates or copies a one Wish.
+     * Updates a one Wish. If you add connection to a WishList new changes would be making in WishList also.
+     * But if a Wish was contained in a WishList and in a new version of a Wish this connection is removed
+     * the WishList would not be updated.
+     * For this case and for removing Wishes form a WishList must be used path statement for 'updateOneWishList'
+     * or 'updateListOfWishLists' methods.
      *
      * @param wish which should be updated.
      * @return request with status code and message if resource doesn't exist.
