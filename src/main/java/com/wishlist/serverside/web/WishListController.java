@@ -281,7 +281,7 @@ public class WishListController {
      * @return request with status code and message if resource doesn't exist.
      */
     @RequestMapping(value = "/wishes/update", method = RequestMethod.PATCH, consumes = "application/json")
-    public ResponseEntity updateOrCopyOneWish(@RequestBody Wish wish) {
+    public ResponseEntity updateOneWish(@RequestBody Wish wish) {
 
         // checking existing wish in db
         if ( !this.wishRepository.exists(wish.getId()) ) {
