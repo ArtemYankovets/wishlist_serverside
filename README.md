@@ -1,6 +1,7 @@
 # WISH LIST project
-This is the servers side of a project. 
-There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this project.
+This is the **servers side** of a project.<br/>
+Application allows users to make wish lists, share information and results with others for helping achieve their goals.<br/>
+In project were used technologies: Spring (Boot, Security, Data and REST), MongoDB.
 
 **Main REST end point methods**<br/>
 **0. Server:**<br/>
