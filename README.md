@@ -84,5 +84,12 @@ There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this pr
         </ul>
     3.4. DELETE<br/>
         <ul>
-           <li>Removing Wish - /api/wishlist/wishes/remove/{id}</li>
+           <li>
+               <b>Removing a one Wish</b><br/>
+               <u>Request Method:</u> DELETE<br/>
+               <u>Input:</u> 'id' of a With like a part of the path<br/>
+               <u>Path:</u> /api/wishlist/wishes/remove/{id}<br/>
+               <u>Description:</u>
+               <i>Deletes a one Wish by id.</i>
+           </li>
         </ul>

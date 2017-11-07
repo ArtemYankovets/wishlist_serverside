@@ -350,20 +350,20 @@ public class WishListController {
     // Delete
 
     /**
-     * Deletes Wish by id.
+     * Deletes a one Wish by id.
      *
-     * @param id of Wish which should be deleted.
+     * @param id of a Wish which should be deleted.
      * @return request with status code and message if resource doesn't exist.
      */
     @RequestMapping(value = "/wishes/remove/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteWish(@PathVariable("id") String id) {
+    public ResponseEntity deleteOneWish(@PathVariable("id") String id) {
 
         Wish existWish = this.wishRepository.findById(id);
         if ( existWish == null ) {
             return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
         }
 
-        // each wish exist only in one wishlist
+        // each Wish exists only in one wishlist
         String wishListUsageId = existWish.getWishListUsageId();
         WishList wishList = this.wishListRepository.findById(wishListUsageId);
         wishList.getWishes().remove(id);
