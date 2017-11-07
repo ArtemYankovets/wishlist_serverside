@@ -194,7 +194,7 @@ public class WishListController {
      * @param id of WishList which should be deleted.
      * @return request with status code and message if resource doesn't exist.
      */
-    @RequestMapping(value = "/list/remove/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/lists/remove/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteWishList(@PathVariable("id") String id) {
         WishList existWishList = this.wishListRepository.findById(id);
         if ( existWishList == null ) {
