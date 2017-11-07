@@ -168,7 +168,7 @@ public class WishListController {
      *
      * @return request with status code and all WishLists from collection in json format.
      */
-    @RequestMapping(value = "/lists/all", method = RequestMethod.GET, consumes = "application/json")
+    @RequestMapping(value = "/lists/all", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getAllWishLists() {
         return new ResponseEntity<>(this.wishListRepository.findAll(), HttpStatus.OK);
     }
