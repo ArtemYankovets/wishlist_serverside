@@ -277,7 +277,7 @@ public class WishListController {
     /**
      * Updates or copies a one Wish.
      *
-     * @param wish which should be updated ore copied.
+     * @param wish which should be updated.
      * @return request with status code and message if resource doesn't exist.
      */
     @RequestMapping(value = "/wishes/update", method = RequestMethod.PATCH, consumes = "application/json")
