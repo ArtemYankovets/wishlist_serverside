@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -297,6 +297,49 @@ public class WishListController {
             this.wishListRepository.save(wishList);
         }
         this.wishRepository.save(wish);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Updates list of Wishes. If you add connections to a WishList new changes would be making in WishList also.
+     * But if a Wish was contained in a WishList and in a new version of a Wish this connection is removed
+     * the WishList would not be updated.
+     * For this case and for removing Wishes form a WishList must be used path statement for 'updateOneWishList'
+     * or 'updateListOfWishLists' methods.
+     *
+     * @param list of wishes which should be updated.
+     * @return request with status code and message if resource doesn't exist.
+     */
+    @RequestMapping(value = "/wishes/update/list", method = RequestMethod.PATCH, consumes = "application/json")
+    public ResponseEntity updateListOfWishes(@RequestBody List<Wish> list) {
+
+        List<WishList> wishLists = new ArrayList<>();
+
+        for ( Wish wish : list ) {
+            // checking existing wish in db
+            if ( !this.wishRepository.exists( wish.getId() ) ) {
+                return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+            }
+
+            if ( !wish.getWishListUsageId().isEmpty() ) {
+                WishList wList = this.wishListRepository.findById( wish.getWishListUsageId() );
+
+                if ( wList == null ) {
+                    return new ResponseEntity<>(ConstantMessages.RESOURCE_DOES_NOT_EXIST, HttpStatus.OK);
+                }
+
+                // checking existence of WishId in the WishList
+                if ( !wList.getWishes().contains(wish.getId()) ) {
+                    wList.getWishes().add(wish.getId());
+                    wishLists.add( wList );
+                }
+            }
+        }
+
+        if ( !list.isEmpty() ) {
+            this.wishRepository.save(list);
+            if ( !wishLists.isEmpty() ) this.wishListRepository.save(wishLists);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

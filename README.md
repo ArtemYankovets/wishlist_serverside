@@ -58,6 +58,18 @@ There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this pr
     3.3. UPDATE<br/>
         <ul>
            <li>Updating/copying a one Wish - /api/wishlist/wishes/update</li>
+           <li>
+               <b>Updating a list of Wishes</b><br/>
+               <u>Request Method:</u> PATCH<br/>
+               <u>Input:</u> list of Wishes in JSON format<br/>
+               <u>Path:</u> /api/wishlist/wishes/update/list<br/>
+               <u>Description:</u>
+               <i>Updates list of Wishes. If you add connections to a WishList new changes would be making in WishList also.
+               But if a Wish was contained in a WishList and in a new version of a Wish this connection is removed
+               the WishList would not be updated.
+               For this case and for removing Wishes form a WishList must be used path statement for 'updateOneWishList' 
+               or 'updateListOfWishLists' methods.</i>
+           </li>
         </ul>
     3.4. DELETE<br/>
         <ul>
