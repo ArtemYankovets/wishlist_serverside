@@ -305,7 +305,7 @@ public class WishListController {
     }
 
     /**
-     * Updates list of Wishes. If you add connections to a WishList new changes would be making in WishList also.
+     * Updates a list of Wishes. If you add connections to a WishList new changes would be making in WishList also.
      * But if a Wish was contained in a WishList and in a new version of a Wish this connection is removed
      * the WishList would not be updated.
      * For this case and for removing Wishes form a WishList must be used path statement for 'updateOneWishList'
