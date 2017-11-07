@@ -1,4 +1,4 @@
-# WISHLIST project
+# WISH LIST project
 This is the servers side of a project. 
 There are Spring Boot, Spring Data, Spring REST, MongoDB technologies in this project.
 
